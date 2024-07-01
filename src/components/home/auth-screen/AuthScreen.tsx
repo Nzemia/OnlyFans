@@ -2,6 +2,8 @@ import React from 'react'
 import HeroSection from './HeroSection';
 import UnderlinedText from '@/components/decorators/UnderlinedText';
 import TodaysHighlight from './TodaysHighlight';
+import MasonryGrid from './MasonryGrid';
+import RotatedText from '@/components/decorators/RotatedText';
 
 
 const AuthScreen = () => {
@@ -24,6 +26,15 @@ const AuthScreen = () => {
                     {/* <Highlighted featured video /> */}
                     <div className="flex flex-col gap-10 mt-10">
                         <TodaysHighlight />
+
+                        <div className="mt-24">
+                            <p className='text-2xl md:text-5xl text-center tracking-tighter font-bold'>
+                                Meet the <RotatedText>Stars</RotatedText> of our Family!
+                            </p>
+
+                            <MasonryGrid />
+                        </div>
+                        
                     </div>
                 </div>
             </div>
