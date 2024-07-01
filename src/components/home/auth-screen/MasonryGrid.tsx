@@ -3,6 +3,7 @@
 
 import Image from 'next/image'
 import { useState } from 'react';
+import Features from './Features';
 
 
 const MasonryGrid = () => {
@@ -40,9 +41,11 @@ const MasonryGrid = () => {
                                 transformOrigin: `${mousePosition.x}% ${mousePosition.y}%`
                             }}
                         />
-                    </div>
+                    </div>                    
                 ))}
             </div>
+
+            <Features />
         </div>
     )
 }
