@@ -6,7 +6,7 @@ const CoverImage = () => {
     return (
         <div className='h-44 overflow-hidden relative'>
             <Image 
-                src={"/featured/1•jpg"}
+                src={"/featured/1.jpg"}
                 alt='featured cat cover image'
                 fill
                 className='h-full w-full object-cover select-none pointer-events-none'

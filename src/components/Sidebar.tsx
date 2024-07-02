@@ -7,6 +7,7 @@ import { Home, LayoutDashboard, Shirt, User } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs/components';
 import { ModeToggle } from './ModeToggle';
+import { user } from '@/dummy_data';
 
 const SidebarLinks = [
     {
@@ -29,7 +30,7 @@ const Sidebar = () => {
         <div className='flex lg:w-1/5 flex-col gap-3 px-2 border-r sticky left-0 top-0 h-screen'>
             <Link href="/update-profile" className='max-w-fit'>
                 <Avatar className='mt-4 cursor-pointer'>
-                    <AvatarImage src='/user-placeholder.png' className='object-cover'/>
+                    <AvatarImage src={user.image || "/user-placeholder.png"} className='object-cover'/>
                     <AvatarFallback>
                         CN
                     </AvatarFallback>
@@ -102,7 +103,7 @@ const Sidebar = () => {
 
                 <ModeToggle />
 
-                
+
             </nav>
         </div>
     )
