@@ -1,12 +1,13 @@
+import BaseLayout from '@/components/BaseLayout';
 
-import React from 'react'
 
 const HomeScreen = () => {
     return (
         
-        <div>            
-            HomeScreen</div>
+        <BaseLayout renderRightPanel={false}>
+            Home
+        </BaseLayout>
     )
 }
 
-export default HomeScreen
+export default HomeScreen;
