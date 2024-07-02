@@ -25,8 +25,13 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
-            <Footer />
+            <div className="h-screen flex flex-col">
+              <div className="flex-1">
+                {children}
+              </div>
+              
+              <Footer />
+            </div>
           </ThemeProvider>
       </body>
     </html>

@@ -24,7 +24,7 @@ const HeroSection = () => {
                         Hey! It's <span className='bg-stone-800 px-2 font-bold text-white'>NOT</span> what it looks like.                        
                     </p>               
                     <p className='text-2xl md:text-3xl mb-32 leading-snug text-balance'>
-                        Built for <span className='bg-sky-500 font-bold px-2 text-white'>CATS</span> NOT
+                        Built for <span className='bg-sky-500 font-bold px-2 text-white'>CATS</span> NOT {" "}
                         <span className='bg-red-500 px-2 font-bold text-white'>ADULTCONTENT!</span>                        
                     </p> 
 
