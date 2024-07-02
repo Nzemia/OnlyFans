@@ -2,6 +2,7 @@ import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { redirect } from 'next/navigation';
 import React, { ReactNode } from 'react'
 import Sidebar from './Sidebar';
+import SuggestedProducts from './SuggestedProducts';
 
 const BaseLayout = async ({ children, renderRightPanel=true } : { children: ReactNode, renderRightPanel?:boolean }) => {
     const { isAuthenticated } = getKindeServerSession();
@@ -20,7 +21,7 @@ const BaseLayout = async ({ children, renderRightPanel=true } : { children: Reac
                 {children}
             </div>
 
-            {renderRightPanel && "Suggested Products"}
+            {renderRightPanel && <SuggestedProducts />}
         </div>
     )
 }
