@@ -4,6 +4,8 @@ import UnderlinedText from '@/components/decorators/UnderlinedText';
 import TodaysHighlight from './TodaysHighlight';
 import MasonryGrid from './MasonryGrid';
 import RotatedText from '@/components/decorators/RotatedText';
+import Features from './Features';
+import Testimonials from './Testimonials';
 
 
 const AuthScreen = () => {
@@ -35,6 +37,8 @@ const AuthScreen = () => {
                             <MasonryGrid />
                         </div>
                         
+                        <Features />
+                        <Testimonials />
                     </div>
                 </div>
             </div>
