@@ -1,5 +1,6 @@
 import BaseLayout from '@/components/BaseLayout';
 import UserProfile from './UserProfile';
+import Posts from './Posts';
 
 
 const HomeScreen = () => {
@@ -7,6 +8,7 @@ const HomeScreen = () => {
         
         <BaseLayout>
             <UserProfile />
+            <Posts />
         </BaseLayout>
     )
 }
