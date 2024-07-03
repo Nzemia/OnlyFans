@@ -2,6 +2,7 @@ import BaseLayout from "@/components/BaseLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ContentTab from "./content/ContentTab";
 import StoreTab from "./store/StoreTab";
+import AnalyticsTab from "./analytics/AnalyticsTab";
 
 const Page = () => {
     return (
@@ -31,7 +32,7 @@ const Page = () => {
                 <StoreTab />
             </TabsContent>
             <TabsContent value="analytics">
-                Analytics tab values go here.
+                <AnalyticsTab />
             </TabsContent>
             
         </Tabs>
