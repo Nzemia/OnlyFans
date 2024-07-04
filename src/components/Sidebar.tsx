@@ -32,6 +32,7 @@ const Sidebar = async () => {
     const { getUser } = getKindeServerSession()
     const user = await getUser()
 
+    //making the admin only to see the dashboard
     const isAdmin = process.env.ADMIN_EMAIL === user?.email
 
     return (
