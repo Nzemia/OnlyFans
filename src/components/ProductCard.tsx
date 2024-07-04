@@ -1,3 +1,5 @@
+"use client"
+
 import { DollarSign } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { centsToDollars, cn } from "@/lib/utils"

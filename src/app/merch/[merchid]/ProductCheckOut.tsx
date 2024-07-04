@@ -1,15 +1,21 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import ZoomedImage from "@/components/ZoomedImage";
-import { centsToDollars } from "@/lib/utils";
-import { useState } from "react";
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select"
+import ZoomedImage from "@/components/ZoomedImage"
+import { centsToDollars } from "@/lib/utils"
+import { Product } from "@prisma/client"
+import { useState } from "react"
 
-const ProductCheckOut = ({ product } : { product: any }) => {
-    const [ selectedSize, setSelectedSize ] = useState<string | null>(null);
-
+const ProductCheckOut = ({ product }: { product: Product }) => {
+    const [selectedSize, setSelectedSize] = useState<string | null>(null)
 
     return (
         <div className="flex flex-col md:flex-row gap-5">
@@ -21,22 +27,20 @@ const ProductCheckOut = ({ product } : { product: any }) => {
                 </h1>
 
                 <p className="text-muted-foreground">
-                    {centsToDollars(product.price)}
+                    $ {centsToDollars(product.price)}
                 </p>
 
-                <Label className="mt-5 inline-block">
-                    Size
-                </Label>
+                <Label className="mt-5 inline-block">Size</Label>
 
                 <Select onValueChange={setSelectedSize}>
                     <SelectTrigger className="w-[180px] focus:ring-0">
-                        <SelectValue placeholder="Select"/>
+                        <SelectValue placeholder="Select" />
                     </SelectTrigger>
 
-                    <SelectContent>                        
+                    <SelectContent>
                         <SelectItem value="sm">Small</SelectItem>
                         <SelectItem value="md">Medium</SelectItem>
-                        <SelectItem value="lg">Large</SelectItem>                        
+                        <SelectItem value="lg">Large</SelectItem>
                     </SelectContent>
                 </Select>
 
@@ -46,10 +50,8 @@ const ProductCheckOut = ({ product } : { product: any }) => {
                     onClick={() => alert("Bought!" + selectedSize)}
                 >
                     Buy Now
-
                 </Button>
-            </div>     
-            
+            </div>
         </div>
     )
 }
