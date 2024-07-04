@@ -3,6 +3,18 @@
 import prisma from "@/db/prisma"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 
+//function to check if the user is admin, and calling it instead  of creating in each action
+async function CheckIfUserIsAdmin() {
+    const { getUser } = getKindeServerSession()
+    const user = await getUser()
+
+    const isAdmin = user?.email === process.env.ADMIN_EMAIL
+
+    if (!user || !isAdmin) return false
+
+    return user
+}
+
 type PostArgs = {
     text: string
     mediaUrl?: string
@@ -15,12 +27,10 @@ export async function CreatePostAction({
     mediaType,
     text
 }: PostArgs) {
-    const { getUser } = getKindeServerSession()
-    const user = await getUser()
+    const admin = await CheckIfUserIsAdmin()
 
-    const isAdmin = user?.email === process.env.ADMIN_EMAIL
-    if (!user || !isAdmin) {
-        throw new Error("Only admin users can create posts!")
+    if (!admin) {
+        throw new Error("Unauthorized!")
     }
 
     const newPost = await prisma.post.create({
@@ -29,23 +39,11 @@ export async function CreatePostAction({
             mediaUrl,
             mediaType,
             isPublic,
-            userId: user.id
+            userId: admin.id
         }
     })
 
     return { succes: true, post: newPost }
-}
-
-//function to check if the user is admin, and calling it instead  of creating in each action
-async function CheckIfUserIsAdmin() {
-    const { getUser } = getKindeServerSession()
-    const user = await getUser()
-
-    const isAdmin = user?.email === process.env.ADMIN_EMAIL
-
-    if (!user || !isAdmin) return false
-
-    return true
 }
 
 export async function GetAllProductsAction() {
@@ -95,4 +93,33 @@ export async function AddNewProductToStoreAction({
     })
 
     return { success: true, product: newProduct }
+}
+
+export async function ToggleProductArchiveAction(productId: string) {
+    const isAdmin = await CheckIfUserIsAdmin()
+
+    if (!isAdmin) {
+        throw new Error("Unauthorized!")
+    }
+
+    const product = await prisma.product.findUnique({
+        where: {
+            id: productId
+        }
+    })
+
+    if (!product) {
+        throw new Error("Product not found!")
+    }
+
+    const updatedProduct = await prisma.product.update({
+        where: {
+            id: productId
+        },
+        data: {
+            isArchived: !product.isArchived
+        }
+    })
+
+    return { success: true, product: updatedProduct }
 }

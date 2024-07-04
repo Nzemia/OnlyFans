@@ -85,7 +85,7 @@ model Product {
   name      String
   image     String
   price     Int
-  isArcived Boolean @default(false)
+  isArchived Boolean @default(false)
 
   order Order[]
 }
