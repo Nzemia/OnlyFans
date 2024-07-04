@@ -35,3 +35,18 @@ export async function CreatePostAction({
 
     return { succes: true, post: newPost }
 }
+
+export async function GetAllProductsAction() {
+    const { getUser } = getKindeServerSession()
+    const user = await getUser()
+
+    const isAdmin = user?.email === process.env.ADMIN_EMAIL
+
+    if (!user || !isAdmin) {
+        throw new Error("Only admin users can create posts!")
+    }
+
+    const products = await prisma.product.findMany()
+
+    return products
+}
