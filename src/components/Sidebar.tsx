@@ -14,6 +14,7 @@ import {
 import { ModeToggle } from "./ModeToggle"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import LogOutButton from "./LogOutButton"
+import { GetUserProfileAction } from "@/app/update-profile/actions"
 
 const SidebarLinks = [
     {
@@ -32,6 +33,8 @@ const Sidebar = async () => {
     const { getUser } = getKindeServerSession()
     const user = await getUser()
 
+    const userProfile = await GetUserProfileAction()
+
     //making the admin only to see the dashboard
     const isAdmin = process.env.ADMIN_EMAIL === user?.email
 
@@ -40,7 +43,7 @@ const Sidebar = async () => {
             <Link href="/update-profile" className="max-w-fit">
                 <Avatar className="mt-4 cursor-pointer">
                     <AvatarImage
-                        src={user?.picture || "/user-placeholder.png"}
+                        src={userProfile?.image || "/user-placeholder.png"}
                         className="object-cover"
                     />
                     <AvatarFallback>CN</AvatarFallback>
