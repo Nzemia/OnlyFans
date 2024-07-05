@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   id           String  @id @default(cuid())
-  email        String
+  email        String @unique
   name         String
   image        String?
   isSubscribed Boolean @default(false)
