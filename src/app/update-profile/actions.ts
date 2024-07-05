@@ -3,6 +3,7 @@
 import prisma from "@/db/prisma"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { User } from "@prisma/client"
+import { revalidatePath } from "next/cache"
 
 export async function GetUserProfileAction() {
     const { getUser } = getKindeServerSession()
@@ -39,6 +40,8 @@ export async function UpdateUserProfileAction({
         where: { id: user.id },
         data: updatedFields
     })
+
+    revalidatePath("/update-profile")
 
     return { success: true, user: updatedUser }
 }
