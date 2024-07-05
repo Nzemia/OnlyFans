@@ -10,7 +10,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "./ui/dropdown-menu"
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components"
+
 import { ModeToggle } from "./ModeToggle"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import LogOutButton from "./LogOutButton"

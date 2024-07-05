@@ -11,11 +11,54 @@ import {
     TooltipProvider,
     TooltipTrigger
 } from "@/components/ui/tooltip"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary"
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { GetUserProfileAction, UpdateUserProfileAction } from "./actions"
+import { useToast } from "@/components/ui/use-toast"
 
 const UpdateProfileForm = () => {
-    const [medialUrl, setMediaUrl] = useState<string | null>(null)
+    const [mediaUrl, setMediaUrl] = useState("")
+
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [profileImage, setProfileImage] = useState("")
+    const { toast } = useToast()
+
+    const { data: userProfile } = useQuery({
+        queryKey: ["userProfile"],
+        queryFn: async () => await GetUserProfileAction()
+    })
+
+    const { mutate: updateProfile, isPending } = useMutation({
+        mutationKey: ["updateProfile"],
+        mutationFn: UpdateUserProfileAction,
+        onSuccess: () => {
+            toast({
+                title: "Profile Updated Successfully!",
+                description: "Your profile has been updated successfully!"
+            })
+        },
+        onError: error => {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive"
+            })
+        }
+    })
+
+    const handleUpdateProfile = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        updateProfile({ name, image: mediaUrl })
+    }
+
+    useEffect(() => {
+        if (userProfile) {
+            setName(userProfile.name)
+        }
+    }, [userProfile])
+
     return (
         <div className="px-2 md:px-10 my-20">
             <Card>
@@ -27,19 +70,24 @@ const UpdateProfileForm = () => {
                     <div className="flex justify-center">
                         <Avatar className="w-20 h-20">
                             <AvatarImage
-                                src="/user-placeholder.png"
+                                src={
+                                    mediaUrl ||
+                                    userProfile?.image ||
+                                    "/user-placeholder.png"
+                                }
                                 className="object-cover"
                             />
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                     </div>
 
-                    <form action="">
+                    <form onSubmit={e => handleUpdateProfile(e)}>
                         <Label>Name</Label>
                         <Input
-                            placeholder="Name"
-                            value={"name"}
+                            placeholder="Enter your name"
+                            value={name}
                             className="my-2"
+                            onChange={e => setName(e.target.value)}
                         />
 
                         <Label>Email</Label>
@@ -51,7 +99,7 @@ const UpdateProfileForm = () => {
                                 >
                                     <Input
                                         disabled
-                                        value={"youremail@gmail.com"}
+                                        value={userProfile?.email}
                                         className="my-2"
                                     />
                                 </TooltipTrigger>
@@ -89,8 +137,12 @@ const UpdateProfileForm = () => {
                             }}
                         </CldUploadWidget>
 
-                        <Button type="submit" className="w-full">
-                            Update Profile
+                        <Button
+                            type="submit"
+                            className="w-full"
+                            disabled={isPending}
+                        >
+                            {isPending ? "Updating..." : "Update"}
                         </Button>
                     </form>
                 </CardContent>
