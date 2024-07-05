@@ -14,10 +14,10 @@ import {
 import { CldVideoPlayer } from "next-cloudinary"
 import Image from "next/image"
 import Link from "next/link"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { DeletePostAction } from "./actions"
+import { DeletePostAction, LikePostAction } from "./actions"
 import { useToast } from "@/components/ui/use-toast"
 
 type PostWithComments = Prisma.PostGetPayload<{
@@ -27,8 +27,8 @@ type PostWithComments = Prisma.PostGetPayload<{
                 user: true
             }
         }
+        likesList: true
     }
-    likesList: true
 }>
 const Post = ({
     post,
@@ -44,6 +44,8 @@ const Post = ({
     const { user } = useKindeBrowserClient()
 
     const { toast } = useToast()
+
+    const queryClient = useQueryClient()
 
     const { mutate: deletePost } = useMutation({
         mutationKey: ["deletePost"],
@@ -65,7 +67,29 @@ const Post = ({
         }
     })
 
-    const queryClient = useQueryClient()
+    const { mutate: likePost } = useMutation({
+        mutationKey: ["likePost"],
+        mutationFn: async () => {
+            post.likes += isLiked ? -1 : 1
+            setIsLiked(!isLiked)
+            await LikePostAction(post.id)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["posts"] })
+        },
+        onError: error => {
+            toast({
+                title: "Error",
+                description:
+                    error.message || "Something went wrong. Please try again.",
+                variant: "destructive"
+            })
+        }
+    })
+
+    useEffect(() => {
+        if (post.likesList && user?.id) setIsLiked(post.likesList.length > 0)
+    }, [post.likesList, user?.id])
 
     return (
         <div className="flex flex-col gap-3 p-3 border-t">
@@ -164,17 +188,20 @@ const Post = ({
                             "text-red-500": isLiked,
                             "fill-red-500": isLiked
                         })}
-                        onClick={() => setIsLiked(!isLiked)}
+                        onClick={() => {
+                            if (!isSubscribed) return
+                            likePost()
+                        }}
                     />
                     <span className="text-zinc-400 text-xs tracking-tighter">
-                        33
+                        {post.likes}
                     </span>
                 </div>
 
                 <div className="flex gap-1 items-center">
                     <MessageCircle className="w-5 h-5 cursor-pointer" />
                     <span className="text-zinc-400 text-xs tracking-tighter">
-                        44
+                        {post.comments.length > 0 ? post.comments.length : 0}
                     </span>
                 </div>
             </div>

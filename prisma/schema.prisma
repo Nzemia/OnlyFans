@@ -9,14 +9,14 @@ datasource db {
 
 model User {
   id           String  @id @default(cuid())
-  email        String @unique
+  email        String  @unique
   name         String
   image        String?
   isSubscribed Boolean @default(false)
-  customerId   String? @unique
+  customerId   String? @unique // stripe customer id
 
   subscription Subscription?
-  order        Order[]
+  orders       Order[]
   comments     Comment[]
   likes        Like[]
 
@@ -60,8 +60,8 @@ model Like {
   userId String
   postId String
 
-  post Post @relation(fields: [postId], references: [id])
   user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
 
   @@index([postId])
   @@index([userId])
@@ -81,13 +81,13 @@ model Subscription {
 }
 
 model Product {
-  id        String  @id @default(cuid())
-  name      String
-  image     String
-  price     Int
+  id         String  @id @default(cuid())
+  name       String
+  image      String
+  price      Int
   isArchived Boolean @default(false)
 
-  order Order[]
+  orders Order[]
 }
 
 model Order {
