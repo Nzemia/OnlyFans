@@ -115,3 +115,28 @@ export async function LikePostAction(postId: string) {
 
     return { success: true }
 }
+
+export async function CommentOnPostAction(postId: string, text: string) {
+    const { getUser } = getKindeServerSession()
+    const user = await getUser()
+
+    if (!user) throw new Error("Unauthorized!")
+
+    const userProfile = await prisma.user.findUnique({
+        where: {
+            id: user.id
+        }
+    })
+
+    if (!userProfile?.isSubscribed) return
+
+    const comment = await prisma.comment.create({
+        data: {
+            postId,
+            userId: user.id,
+            text
+        }
+    })
+
+    return { success: true }
+}
