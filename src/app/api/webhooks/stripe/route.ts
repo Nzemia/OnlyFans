@@ -1,6 +1,7 @@
 import prisma from "@/db/prisma"
 import { stripe } from "@/lib/stripe"
 import { headers } from "next/headers"
+import { NextResponse } from "next/server"
 import Stripe from "stripe"
 
 const webhookSecret =
@@ -110,7 +111,34 @@ export async function POST(req: Request) {
                         }
                     }
                 }
+                break
             }
+            case "customer.subscription.deleted": {
+                const subscription = await stripe.subscriptions.retrieve(
+                    (data.object as Stripe.Subscription).id
+                )
+
+                const user = await prisma.user.findUnique({
+                    where: { customerId: subscription.customer as string }
+                })
+
+                if (user) {
+                    await prisma.user.update({
+                        where: { id: user.id },
+                        data: { isSubscribed: false }
+                    })
+                } else {
+                    console.error(
+                        "User not found for customer ID: ",
+                        subscription.customer
+                    )
+                    throw new Error("User not found for customer ID")
+                }
+                break
+            }
+            default:
+                console.warn(`Unhandled event type: ${eventType}`)
+                break
         }
     } catch (error: any) {
         console.error("Error processing event", error.message)
