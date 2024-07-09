@@ -2,4 +2,4 @@
 
 ##Auth Screen
 
-![AuthScreen](/toreadmepics.authscreen.png)
+![AuthScreen](/public/toreadmepics.authscreen.png)
