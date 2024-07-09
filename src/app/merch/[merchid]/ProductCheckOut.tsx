@@ -1,9 +1,6 @@
 "use client"
 
-<<<<<<< HEAD
 import ZoomedImage from "@/components/ZoomedImage"
-=======
->>>>>>> origin/main
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import {
@@ -13,7 +10,6 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select"
-<<<<<<< HEAD
 import { useToast } from "@/components/ui/use-toast"
 import { centsToDollars } from "@/lib/utils"
 import { Product } from "@prisma/client"
@@ -34,7 +30,7 @@ const ProductCheckout = ({ product }: { product: Product }) => {
             if (url) router.push(url)
             else
                 throw new Error(
-                    "Error creating checkout session.Please try again later!"
+                    "Error creating checkout session.Please try again later"
                 )
         },
         onError: error => {
@@ -42,7 +38,7 @@ const ProductCheckout = ({ product }: { product: Product }) => {
                 title: "Error",
                 description:
                     error.message ||
-                    "Something went wrong. Please try again later!",
+                    "Something went wrong. Please try again later.",
                 variant: "destructive"
             })
         }
@@ -60,15 +56,6 @@ const ProductCheckout = ({ product }: { product: Product }) => {
         // call our mutation
         createCheckoutSession({ productId: product.id, size: selectedSize })
     }
-=======
-import ZoomedImage from "@/components/ZoomedImage"
-import { centsToDollars } from "@/lib/utils"
-import { Product } from "@prisma/client"
-import { useState } from "react"
-
-const ProductCheckOut = ({ product }: { product: Product }) => {
-    const [selectedSize, setSelectedSize] = useState<string | null>(null)
->>>>>>> origin/main
 
     return (
         <div className="flex flex-col md:flex-row gap-5">
@@ -78,27 +65,15 @@ const ProductCheckOut = ({ product }: { product: Product }) => {
                 <h1 className="text-2xl md:text-4xl font-bold">
                     {product.name}
                 </h1>
-<<<<<<< HEAD
                 <p className="text-muted-foreground text-base">
                     ${centsToDollars(product.price)}
                 </p>
-=======
-
-                <p className="text-muted-foreground">
-                    $ {centsToDollars(product.price)}
-                </p>
-
->>>>>>> origin/main
                 <Label className="mt-5 inline-block">Size</Label>
 
                 <Select onValueChange={setSelectedSize}>
                     <SelectTrigger className="w-[180px] focus:ring-0">
                         <SelectValue placeholder="Select" />
                     </SelectTrigger>
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
                     <SelectContent>
                         <SelectItem value="sm">Small</SelectItem>
                         <SelectItem value="md">Medium</SelectItem>
@@ -108,26 +83,14 @@ const ProductCheckOut = ({ product }: { product: Product }) => {
 
                 <Button
                     className="mt-5 text-white px-5 py-2 rounded-md"
-<<<<<<< HEAD
                     disabled={isPending}
                     size={"sm"}
                     onClick={handleBuyProduct}
                 >
                     {isPending ? "Processing..." : "Buy Now"}
-=======
-                    size={"sm"}
-                    onClick={() => alert("Bought!" + selectedSize)}
-                >
-                    Buy Now
->>>>>>> origin/main
                 </Button>
             </div>
         </div>
     )
 }
-<<<<<<< HEAD
 export default ProductCheckout
-=======
-
-export default ProductCheckOut
->>>>>>> origin/main
