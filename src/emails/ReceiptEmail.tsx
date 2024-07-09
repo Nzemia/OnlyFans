@@ -54,8 +54,8 @@ export const ReceiptEmail = ({
                 <Hr style={global.hr} />
                 <Section style={message}>
                     <Img
-                        // src={`${BASE_URL}/email-logo.png`}
-                        src={"https://i.ibb.co/zRQ6qcJ/email-logo.png"}
+                        src={`${BASE_URL}/email-logo.png`}
+                        // src={"https://i.ibb.co/zRQ6qcJ/email-logo.png"}
                         width="120"
                         height="80"
                         alt="Nike"

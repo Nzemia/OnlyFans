@@ -35,9 +35,8 @@ const WelcomeEmail = ({
                 <Container style={container}>
                     <Section style={message}>
                         <Img
-                            // todo => update this sorces
-                            // src={`${BASE_URL}/horse-1.png`}
-                            src={`https://i.ibb.co/CV1mKKY/horse-1.jpg`}
+                            src={`${BASE_URL}/01.jpg`}
+                            // src={`https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2F0fGVufDB8fDB8fHww`}
                             width="600"
                             height="400"
                             alt="welcome icon"
