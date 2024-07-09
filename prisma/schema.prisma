@@ -33,7 +33,7 @@ model Post {
   likes     Int     @default(0)
   isPublic  Boolean @default(false)
 
-  comments  Comment[]
+  comments  Comment[] 
   likesList Like[]
 
   createdAt DateTime @default(now())
@@ -46,7 +46,7 @@ model Comment {
   userId String
   postId String
 
-  post Post @relation(fields: [postId], references: [id])
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
@@ -54,6 +54,7 @@ model Comment {
   @@index([postId])
   @@index([userId])
 }
+
 
 model Like {
   id     String @id @default(cuid())

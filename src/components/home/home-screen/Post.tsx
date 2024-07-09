@@ -3,7 +3,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
-import { Post as PostType, Prisma, User } from "@prisma/client"
+import { Prisma, User } from "@prisma/client"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import {
     Heart,
@@ -16,7 +16,11 @@ import { CldVideoPlayer } from "next-cloudinary"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { CommentOnPostAction, LikePostAction } from "./actions"
+import {
+    CommentOnPostAction,
+    DeletePostAction,
+    LikePostAction
+} from "./actions"
 import { useToast } from "@/components/ui/use-toast"
 import {
     Dialog,
@@ -57,24 +61,24 @@ const Post = ({
     const { toast } = useToast()
     const queryClient = useQueryClient()
 
-    // const { mutate: deletePost } = useMutation({
-    //     mutationKey: ["deletePost"],
-    //     mutationFn: async () => await deletePostAction(post.id),
-    //     onSuccess: () => {
-    //         queryClient.invalidateQueries({ queryKey: ["posts"] })
-    //         toast({
-    //             title: "Success",
-    //             description: "Post deleted successfully"
-    //         })
-    //     },
-    //     onError: error => {
-    //         toast({
-    //             title: "Error",
-    //             description: error.message,
-    //             variant: "destructive"
-    //         })
-    //     }
-    // })
+    const { mutate: deletePost } = useMutation({
+        mutationKey: ["deletePost"],
+        mutationFn: async () => await DeletePostAction(post.id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["posts"] })
+            toast({
+                title: "Success",
+                description: "Post deleted successfully"
+            })
+        },
+        onError: error => {
+            toast({
+                title: "Error",
+                description: error.message,
+                variant: "destructive"
+            })
+        }
+    })
 
     const { mutate: likePost } = useMutation({
         mutationKey: ["likePost"],
@@ -144,7 +148,7 @@ const Post = ({
                         {admin.name}
                     </span>
                 </div>
-                {/* <div className="flex gap-2 items-center">
+                <div className="flex gap-2 items-center">
                     <p className="text-zinc-400 text-xs md:text-sm tracking-tighter">
                         17.06.2024
                     </p>
@@ -155,7 +159,7 @@ const Post = ({
                             onClick={() => deletePost()}
                         />
                     )}
-                </div> */}
+                </div>
             </div>
 
             <p className="text-sm md:text-md">{post.text}</p>
